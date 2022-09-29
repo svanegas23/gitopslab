@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: argocd-apps
+  name: aks-helloworld-one
   namespace: argocd
 spec:
   source:

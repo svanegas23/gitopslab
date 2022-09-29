@@ -23,7 +23,7 @@ helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
 ~~~
 
-**Then install the Helm chart,**
+Then install the Helm chart,
 
 ~~~
 helm install nginx-ingress ingress-nginx/ingress-nginx \
@@ -34,9 +34,10 @@ helm install nginx-ingress ingress-nginx/ingress-nginx \
     --set defaultBackend.nodeSelector."kubernetes\.io/os"=linux
 ~~~
 
-Install Cert Manager
-Now, install the cert-manager Helm chart. Notice: you will have to add the Jetstack helm repository first.
+# Install Cert Manager 
+Now, install the **cert-manager** Helm chart. Notice: you will have to add the Jetstack helm repository first.
 
+~~~
 CERT_MANAGER_TAG=v1.3.1
 
 # Label the ingress-basic namespace to disable resource validation
@@ -54,9 +55,11 @@ helm install cert-manager jetstack/cert-manager \
   --version $CERT_MANAGER_TAG \
   --set installCRDs=true \
   --set nodeSelector."kubernetes\.io/os"=linux
+~~~
 
 And lastly, create a CA cluster issuer. This will tell cert-manager to issue certificates for certificate requests across the cluster.
 
+~~~
 cat << EOF | kubectl apply -f -
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
@@ -77,16 +80,18 @@ spec:
               nodeSelector:
                 "kubernetes.io/os": linux
 EOF
-
+~~~
 
 # Install Argo CD
 Now, for the good part, let’s install Argo CD with a TLS ingress.
 
+~~~
 kubectl create namespace argocd
 
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+~~~
 
-For example: argocd.yourdomain.com You can get the Public IP of the NGINX Ingress controller by:
+For example: **argocd.yourdomain.com** You can get the Public IP of the NGINX Ingress controller by:
 
 $ kubectl get svc -n ingress
 NAME                                               TYPE           CLUSTER-IP   EXTERNAL
@@ -94,8 +99,9 @@ nginx-ingress-ingress-nginx-controller             LoadBalancer   10.1.0.88    2
 
 Next, you’re going to deploy the Ingress rules to be able to reach ArgoCD’s UI using HTTPS. Make sure you add an A record on your DNS to the ingress controller.
 
-Note: Change the code snippet below to include your custom domain.
+**Note:** Change the code snippet below to include your custom domain.
 
+~~~
 cat << EOF | kubectl apply -f -
 apiVersion: networking.k8s.io/v1
 kind: Ingress
@@ -128,11 +134,11 @@ spec:
     - argocd.mydomain.com
     secretName: argocd-secret # do not change, this is provided by Argo CD
 EOF
-
+~~~
 
 Open your browser with your custom address for Argo. For example: https://argocd.mydomain.com. Note: it can take about 5 minutes for the Let’s Encrypt certificate to be assigned.
 
-Congrats 🎉
+## Congrats 🎉
 
 
 

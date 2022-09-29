@@ -8,23 +8,24 @@ You’ll need:
 - An AKS cluster. Here’s a Gist I use to create a simple cluster.
 - Helm 3
 - Azure CLI
+- A Custom DNS/Access to the provider (I will be using Azure DNS)
 
-## A Custom DNS/Access to the provider (I will be using Azure DNS)
-
-NGINX Ingress Controller with Let’s Encrypt
+# NGINX Ingress Controller with Let’s Encrypt
 I was inspired by this page on the Microsoft docs. We’re going to install the NGINX ingress controller with Let’s Encrypt.
 
-Note: To simplify things, I will use the NGINX image from Docker Hub. The Microsoft Docs walk you through importing the NGINX image into your own container registry, and… for good reason.
+**Note**: To simplify things, I will use the NGINX image from Docker Hub. The Microsoft Docs walk you through importing the NGINX image into your own container registry, and… for good reason.
 
-Install NGINX Ingress Controller
+# Install NGINX Ingress Controller
 First, add the NGINX Helm Repository.
 
 ~~~
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
+~~~
 
-Then install the Helm chart,
+**Then install the Helm chart,**
 
+~~~
 helm install nginx-ingress ingress-nginx/ingress-nginx \
     --namespace ingress --create-namespace\
     --set controller.replicaCount=2 \

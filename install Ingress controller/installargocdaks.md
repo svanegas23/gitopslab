@@ -93,9 +93,11 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 
 For example: **argocd.yourdomain.com** You can get the Public IP of the NGINX Ingress controller by:
 
+~~~
 $ kubectl get svc -n ingress
 NAME                                               TYPE           CLUSTER-IP   EXTERNAL
 nginx-ingress-ingress-nginx-controller             LoadBalancer   10.1.0.88    20.120.123.218   80:30101/TCP,443:31968/TCP   5m13s         443/TCP                      5m13s
+~~~
 
 Next, you’re going to deploy the Ingress rules to be able to reach ArgoCD’s UI using HTTPS. Make sure you add an A record on your DNS to the ingress controller.
 

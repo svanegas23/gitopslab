@@ -1,2 +1,14 @@
-git config --global user.email "santiagovanegas23@gmail.com"
-git config --global user.name "Santiago Vanegas"
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: aks-helloworld-one
+  namespace: argocd
+spec:
+  source:
+    path: ./
+    repoURL: https://github.com/svanegas23/gitopslab.git
+    targetRevision: HEAD
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: kube-system
+  project: default

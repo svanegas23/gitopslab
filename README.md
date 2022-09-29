@@ -1,2 +1,0 @@
-# gitopslab
-gitops lab aks

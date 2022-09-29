@@ -19,6 +19,7 @@ Note: To simplify things, I will use the NGINX image from Docker Hub. The Micros
 Install NGINX Ingress Controller
 First, add the NGINX Helm Repository.
 
+~~~
 helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
 helm repo update
 
@@ -30,6 +31,7 @@ helm install nginx-ingress ingress-nginx/ingress-nginx \
     --set controller.nodeSelector."kubernetes\.io/os"=linux \
     --set controller.admissionWebhooks.patch.nodeSelector."kubernetes\.io/os"=linux \
     --set defaultBackend.nodeSelector."kubernetes\.io/os"=linux
+~~~
 
 Install Cert Manager
 Now, install the cert-manager Helm chart. Notice: you will have to add the Jetstack helm repository first.

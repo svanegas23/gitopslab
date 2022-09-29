@@ -5,7 +5,7 @@ metadata:
   namespace: argocd
 spec:
   source:
-    path: .
+    path: ./
     repoURL: https://github.com/svanegas23/gitopslab.git
     targetRevision: HEAD
   destination:
